@@ -11,12 +11,12 @@ import React from 'react';
 class App extends React.Component {
   state = {
     gallery: [],
-    status: 'resolved',
+    status: 'idle',
     searchQuery: '',
   };
 
   componentDidMount() {
-    getServerResponse('baby')
+    /*     getServerResponse('')
       .then(({ hits }) =>
         this.setState({
           gallery: hits.map(({ id, webformatURL, largeImageURL }) => ({
@@ -29,7 +29,7 @@ class App extends React.Component {
       .catch(err => {
         alert(err.message);
         throw err;
-      });
+      }); */
   }
 
   onSubmit = event => {
@@ -40,6 +40,7 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.searchQuery !== prevState.searchQuery) {
+      this.setState({ status: 'pending' });
       getServerResponse(this.state['searchQuery'])
         .then(({ hits }) =>
           this.setState({
@@ -48,6 +49,7 @@ class App extends React.Component {
               webformatURL,
               largeImageURL,
             })),
+            status: 'resolved',
           }),
         )
         .catch(err => {
@@ -63,11 +65,17 @@ class App extends React.Component {
       return (
         <div className="App">
           <SearchBar onSubmit={this.onSubmit} />
+          Please type what you want to find...
         </div>
       );
     }
     if (status === 'pending') {
-      return <Loader />;
+      return (
+        <div className="App">
+          <SearchBar onSubmit={this.onSubmit} />
+          <Loader />
+        </div>
+      );
     }
     if (status === 'rejected') {
     }
