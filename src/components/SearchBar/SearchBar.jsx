@@ -10,6 +10,10 @@ class SearchBar extends React.Component {
     this.setState({ searchInput: value });
   };
 
+  componentWillUnmount() {
+    console.log('CWUnmount-SearchBar');
+  }
+
   render() {
     return (
       <header className="SearchBar">

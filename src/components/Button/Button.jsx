@@ -1,15 +1,14 @@
-const Button = () => {
-  const clickHandler = event => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
-  };
-
+import s from './Button.module.css';
+const Button = ({ onClick, children, status }) => {
   return (
-    <button type="button" onClick={clickHandler}>
-      Load more
-    </button>
+    <div className={s.loader_wrapper}>
+      <div className={s.loader}>{status === 'pending' && children()}</div>
+      {status === 'resolved' && (
+        <button className={s.Button} type="button" onClick={onClick}>
+          Load more
+        </button>
+      )}
+    </div>
   );
 };
 
