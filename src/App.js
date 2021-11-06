@@ -1,11 +1,8 @@
 import SearchBar from './components/SearchBar';
 import ImageGallery from './components/ImageGallery';
-import Loader from './components/Loader';
 import Button from './components/Button';
-//import Modal from './components/Modal';
 import getServerResponse from './shared/services/api.js';
-
-import LoaderSpinner from 'react-loader-spinner';
+import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import './App.css';
@@ -21,38 +18,35 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    /*     getServerResponse('')
-      .then(({ hits }) =>
-        this.setState({
-          gallery: hits.map(({ id, webformatURL, largeImageURL }) => ({
-            id,
-            webformatURL,
-            largeImageURL,
-          })),
-        }),
-      )
-      .catch(err => {
-        alert(err.message);
-        throw err;
-      }); */
+    console.log('DID-Mount-APP');
   }
 
   onSubmit = event => {
     event.preventDefault();
     this.setState({ gallery: [], page: 1 });
     const { value } = event.target.elements['searchInput'];
-    this.setState({ searchQuery: value });
+    console.log('value= ', value.trim() === '');
+    if (value.trim() === '') {
+      this.setState({
+        status: 'idle',
+        searchQuery: value,
+      });
+    } else {
+      this.setState({ searchQuery: value });
+    }
   };
 
   pagination = event => {
-    /*     window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    }); */
-
     this.setState(prevState => ({
       page: prevState['page'] + 1,
     }));
+    //------------------------------------
+    setTimeout(() => {
+      window.scrollBy({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }, 500);
   };
 
   componentWillUnmount() {
@@ -60,9 +54,12 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('DidUpdate - APP', this.state.searchQuery.trim());
+
     if (
-      this.state.searchQuery !== prevState.searchQuery ||
-      this.state.page !== prevState.page
+      this.state.searchQuery.trim() !== '' &&
+      (this.state.searchQuery !== prevState.searchQuery ||
+        this.state.page !== prevState.page)
     ) {
       this.setState({ status: 'pending' });
       getServerResponse(this.state['searchQuery'], this.state['page'])
@@ -103,7 +100,7 @@ class App extends React.Component {
           <>
             <ImageGallery gallery={this.state['gallery']} />
             <Button onClick={this.pagination} status={status}>
-              {() => <LoaderSpinner color="tomato" height={100} width={100} />}
+              {() => <Loader color="tomato" height={100} width={100} />}
             </Button>
           </>
         )}
