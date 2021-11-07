@@ -36,7 +36,7 @@ class App extends React.Component {
     }
   };
 
-  pagination = event => {
+  pagination = () => {
     this.setState(prevState => ({
       page: prevState['page'] + 1,
     }));

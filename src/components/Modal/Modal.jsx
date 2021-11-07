@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 const Modal = ({ ModalCloseClickHandler, ModalCloseKeyHandler, largePic }) => {
   return (
     <div className="Overlay" onClick={ModalCloseClickHandler}>
@@ -12,6 +12,12 @@ const Modal = ({ ModalCloseClickHandler, ModalCloseKeyHandler, largePic }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  ModalCloseClickHandler: PropTypes.func.isRequired,
+  ModalCloseKeyHandler: PropTypes.func.isRequired,
+  largePic: PropTypes.string.isRequired,
 };
 
 export default Modal;

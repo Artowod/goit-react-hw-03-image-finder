@@ -1,6 +1,7 @@
-import React from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class SearchBar extends React.Component {
+class SearchBar extends Component {
   state = {
     searchInput: '',
   };
@@ -37,5 +38,9 @@ class SearchBar extends React.Component {
     );
   }
 }
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

@@ -1,6 +1,7 @@
-import React from 'react';
+import PropTypes from 'prop-types';
+import { Component } from 'react';
 import Modal from '../Modal';
-class ImageGalleryItem extends React.Component {
+class ImageGalleryItem extends Component {
   state = {
     status: 'noModal',
   };
@@ -15,13 +16,11 @@ class ImageGalleryItem extends React.Component {
   };
 
   closeModal = event => {
-    //    event.preventDefault();
     console.log('click ', event);
     event.target.tagName === 'DIV' && this.setState({ status: 'noModal' });
   };
 
   closeModalByEsc = event => {
-    //    event.preventDefault();
     console.log('Key ', event);
     event.key === 'Escape' && this.setState({ status: 'noModal' });
   };
@@ -48,19 +47,8 @@ class ImageGalleryItem extends React.Component {
   }
 }
 
-export default ImageGalleryItem;
-
-/*
-const ImageGalleryItem = ({ webformatURL, largeImageURL }) => {
-  return (
-    <li className="ImageGalleryItem">
-      <a href={largeImageURL}>
-        <img src={webformatURL} alt="" className="ImageGalleryItem-image" />
-      </a>
-    </li>
-  );
+ImageGalleryItem.propTypes = {
+  largeImageURL: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string.isRequired,
 };
-
 export default ImageGalleryItem;
-
-*/

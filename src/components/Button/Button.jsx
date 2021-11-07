@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import s from './Button.module.css';
+
 const Button = ({ onClick, children, status }) => {
   return (
     <div className={s.loader_wrapper}>
@@ -10,6 +12,12 @@ const Button = ({ onClick, children, status }) => {
       )}
     </div>
   );
+};
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default Button;
