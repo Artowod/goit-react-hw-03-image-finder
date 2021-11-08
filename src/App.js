@@ -17,17 +17,15 @@ class App extends React.Component {
     loader: false,
   };
 
-  onSubmit = event => {
-    event.preventDefault();
+  onSubmit = searchQuery => {
     this.setState({ gallery: [], page: 1 });
-    const { value } = event.target.elements['searchInput'];
-    if (value.trim() === '') {
+    if (searchQuery.trim() === '') {
       this.setState({
         status: 'idle',
-        searchQuery: value,
+        searchQuery,
       });
     } else {
-      this.setState({ searchQuery: value });
+      this.setState({ searchQuery });
     }
   };
 
@@ -56,7 +54,7 @@ class App extends React.Component {
             ),
             status: 'resolved',
           }));
-          this.state.page !== prevState.page &&
+          if (this.state.page !== prevState.page && this.state.page !== 1)
             window.scrollBy({
               top: document.documentElement.scrollHeight,
               behavior: 'smooth',
