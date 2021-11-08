@@ -3,26 +3,26 @@ import { Component } from 'react';
 import Modal from '../Modal';
 class ImageGalleryItem extends Component {
   state = {
-    status: 'noModal',
+    isModal: false,
   };
 
   openModal = event => {
     event.preventDefault();
-    this.setState({ status: 'modal' });
+    this.setState({ isModal: true });
   };
 
   closeModal = event => {
-    event.target.tagName === 'DIV' && this.setState({ status: 'noModal' });
+    event.target.tagName === 'DIV' && this.setState({ isModal: false });
   };
 
   closeModalByEsc = event => {
-    event.key === 'Escape' && this.setState({ status: 'noModal' });
+    event.key === 'Escape' && this.setState({ isModal: false });
   };
 
   render() {
     return (
       <li className="ImageGalleryItem">
-        {this.state.status === 'modal' && (
+        {this.state.isModal === true && (
           <Modal
             ModalCloseClickHandler={this.closeModal}
             ModalCloseKeyHandler={this.closeModalByEsc}

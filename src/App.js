@@ -35,13 +35,6 @@ class App extends React.Component {
     this.setState(prevState => ({
       page: prevState['page'] + 1,
     }));
-    //------------------------------------
-    setTimeout(() => {
-      window.scrollBy({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-    }, 500);
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -52,7 +45,7 @@ class App extends React.Component {
     ) {
       this.setState({ status: 'pending' });
       getServerResponse(this.state['searchQuery'], this.state['page'])
-        .then(({ hits }) =>
+        .then(({ hits }) => {
           this.setState(({ gallery: prevGallery }) => ({
             gallery: prevGallery.concat(
               hits.map(({ id, webformatURL, largeImageURL }) => ({
@@ -62,8 +55,13 @@ class App extends React.Component {
               })),
             ),
             status: 'resolved',
-          })),
-        )
+          }));
+          this.state.page !== prevState.page &&
+            window.scrollBy({
+              top: document.documentElement.scrollHeight,
+              behavior: 'smooth',
+            });
+        })
         .catch(err => {
           alert(err.message);
           throw err;
