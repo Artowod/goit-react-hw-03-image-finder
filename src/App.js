@@ -17,15 +17,10 @@ class App extends React.Component {
     loader: false,
   };
 
-  componentDidMount() {
-    console.log('DID-Mount-APP');
-  }
-
   onSubmit = event => {
     event.preventDefault();
     this.setState({ gallery: [], page: 1 });
     const { value } = event.target.elements['searchInput'];
-    console.log('value= ', value.trim() === '');
     if (value.trim() === '') {
       this.setState({
         status: 'idle',
@@ -49,13 +44,7 @@ class App extends React.Component {
     }, 500);
   };
 
-  componentWillUnmount() {
-    console.log('CWUnmount-APP');
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    console.log('DidUpdate - APP', this.state.searchQuery.trim());
-
     if (
       this.state.searchQuery.trim() !== '' &&
       (this.state.searchQuery !== prevState.searchQuery ||

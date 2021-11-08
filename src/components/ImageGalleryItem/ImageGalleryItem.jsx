@@ -6,22 +6,16 @@ class ImageGalleryItem extends Component {
     status: 'noModal',
   };
 
-  componentWillUnmount() {
-    console.log('CWUnmount-Gallery-Item');
-  }
-
   openModal = event => {
     event.preventDefault();
     this.setState({ status: 'modal' });
   };
 
   closeModal = event => {
-    console.log('click ', event);
     event.target.tagName === 'DIV' && this.setState({ status: 'noModal' });
   };
 
   closeModalByEsc = event => {
-    console.log('Key ', event);
     event.key === 'Escape' && this.setState({ status: 'noModal' });
   };
 

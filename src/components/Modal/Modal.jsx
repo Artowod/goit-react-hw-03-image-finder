@@ -1,18 +1,25 @@
+import { Component } from 'react';
 import PropTypes from 'prop-types';
-const Modal = ({ ModalCloseClickHandler, ModalCloseKeyHandler, largePic }) => {
-  return (
-    <div className="Overlay" onClick={ModalCloseClickHandler}>
-      <div
-        className="Modal"
-        onKeyDown={ModalCloseKeyHandler}
-        autoFocus={true}
-        tabIndex="0"
-      >
-        <img src={largePic} alt="Large pic" />
+
+class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', this.props.ModalCloseKeyHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.props.ModalCloseKeyHandler);
+  }
+
+  render() {
+    return (
+      <div className="Overlay" onClick={this.props.ModalCloseClickHandler}>
+        <div className="Modal">
+          <img src={this.props.largePic} alt="Large pic" />
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 Modal.propTypes = {
   ModalCloseClickHandler: PropTypes.func.isRequired,
