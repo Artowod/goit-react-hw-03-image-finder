@@ -15,6 +15,7 @@ class App extends React.Component {
     searchQuery: '',
     page: 1,
     loader: false,
+    isPagination: false,
   };
 
   onSubmit = searchQuery => {
@@ -44,6 +45,7 @@ class App extends React.Component {
       this.setState({ status: 'pending' });
       getServerResponse(this.state['searchQuery'], this.state['page'])
         .then(({ hits }) => {
+          this.setState({ isPagination: hits.length < 12 ? false : true });
           this.setState(({ gallery: prevGallery }) => ({
             gallery: prevGallery.concat(
               hits.map(({ id, webformatURL, largeImageURL }) => ({
@@ -68,7 +70,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { status } = this.state;
+    const { status, isPagination } = this.state;
     if (status === 'idle') {
       return (
         <div className="App">
@@ -81,17 +83,18 @@ class App extends React.Component {
     return (
       <div className="App">
         <SearchBar onSubmit={this.onSubmit} />
+        {status === 'pending' && (
+          <Loader className="loader" color="tomato" height={100} width={100} />
+        )}
         {(status === 'pending' || status === 'resolved') && (
           <>
             <ImageGallery gallery={this.state['gallery']} />
-            <Button onClick={this.pagination} status={status}>
-              {() => <Loader color="tomato" height={100} width={100} />}
-            </Button>
           </>
         )}
+        {isPagination && <Button onClick={this.pagination} />}
       </div>
-    ); /* return */
-  } /* render */
-} /* root */
+    );
+  }
+}
 
 export default App;
